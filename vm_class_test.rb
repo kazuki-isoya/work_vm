@@ -30,18 +30,18 @@ class VendingMachine
   # 投入は複数回できる。
   def slot_money(money)
     if MONEY.include?(money) == true
-      puts "#{money}を投入"
+      # puts "#{money}を投入"
       @slot_money = @slot_money + money
     else
-      puts "無効なお金です"
-      puts "投入した#{money}円をそのまま返却"
+      # puts "無効なお金です"
+      # puts "投入した#{money}円をそのまま返却"
       return @slot_money
     end
   end
   # 払い戻し操作を行うと、投入金額の総計を釣り銭として出力する。
   def return_money
     # 返すお金の金額を表示する
-    puts "#{@slot_money}円を返却します"
+    # puts "#{@slot_money}円を返却します"
     # 自動販売機に入っているお金を0円に戻す
     @slot_money = 0
     return @slot_money
@@ -49,63 +49,79 @@ class VendingMachine
 end
 
 # step2:ジュースの管理
-class Stock
-
-  def initialize
-    @drinks = {coke:{price: 120, count: 5}}
-  end
-
-  def drink_stock
-    @drinks
-  end
-
-  def coke_price
-    @drinks[:coke][:price]
-  end
-
-  def coke_count
-    return @drinks[:coke][:count]
+#coke_stock = Stock.new("coke", 5)
+class Drink
+  attr_reader :drink, :count, :price
+  def initialize(drink, count, price)
+    @drink = drink
+    @count = count
+    @price = price
   end
 end
 # step2ここまで
 
-# step3:購入処理（以下は新しいクラスに設定すべき？例：Purchase）
-class Purchase
 
-  stock = Stock.new
-  vm = VendingMachine.new
+# step3:購入処理
+# purchase = Purchase.new
+class Purchase
 
   def initialize
     @sales = 0
-    @drink_stock = stock.drink_stock
-    @coke_count = stock.coke_count
-    @coke_price = stock.coke_price
+    # @drink_stock = stock.drink_stock
+    # @coke_count = stock.coke_count
+    # @coke_price = stock.coke_price
   end
 
 
-  # お金を入れる処理(新しくメソッドを定義する？)
-  def slot_money(money)
-    vm.slot_money(500)
-  end
+  # お金を入れる処理
+  # def slot_money(money)
+  #   vm.slot_money(500)
+  # end
 
   # 金額の確認
   # p vm.current_slot_money
 
-  # コーラを買う処理（例えばcoke_buyメソッドにするとか？）
-  def coke_buy
-    if vm.current_slot_money >= 120
-      @current_slot_money = vm.current_slot_money
-      @coke_count-=1
-      @drink_stock[:coke][:count] = coke_count
-      @sales += 120
-      @current_slot_money -= 120
-      puts "売上金額#{sales}"
-      puts "残高#{current_slot_money}"
-    else
-      puts "売上金額#{sales}"
-      puts "残高#{current_slot_money}"
+  #購入処理
+  def buy(drink, price)
+    if @current_slot_money >= price
+      @sales += price
+      @current_slot_money -= price
     end
   end
 
 end
 # step3ここまで
+
+
+
+
+#ステップ4
+# def add_stock
+#   st.drink_stock[:water] = {price:100, count:5}
+#   st.drink_stock[:redbull] = {price:200, count:5}
+# end
+#
+
+
+# ステップ5
+# def judgement
+#   redbull_count = drink_stock[:redbull][:count]
+#   water_count = drink_stock[:water][:count]
+#   if vm.current_slot_money >=200 && redbull_count != 0 && coke_count != 0 && water_count != 0
+#     puts "購入可能品：レッドブル、コーラ、水"
+#   elsif vm.current_slot_money >=200 && redbull_count != 0 && coke_count != 0 && water_count == 0
+#     puts "購入可能品：レッドブル、コーラ"
+#   elsif vm.current_slot_money >=200 && redbull_count != 0 && coke_count == 0 && water_count != 0
+#     puts "購入可能品：レッドブル、水"
+#   elsif vm.current_slot_money >=200 && redbull_count != 0 && coke_count == 0 && water_count == 0
+#     puts "購入可能品：レッドブル"
+#   elsif vm.current_slot_money >= 120 && coke_count != 0 && water_count != 0
+#     puts "購入可能品：コーラ、水"
+#   elsif vm.current_slot_money >= 120 && coke_count != 0 && water_count == 0
+#     puts "購入可能品：コーラ"
+#   elsif vm.current_slot_money >=100 &&  water_count != 0
+#     puts "購入可能品：水"
+#   else
+#     puts "購入可能品：なし"
+#   end
+# end
