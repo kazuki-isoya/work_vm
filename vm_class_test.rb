@@ -51,7 +51,8 @@ end
 # step2:ジュースの管理
 #coke_stock = Stock.new("coke", 5)
 class Drink
-  attr_reader :drink, :count, :price
+  attr_reader :drink, :price
+  attr_accessor :count
   def initialize(drink, count, price)
     @drink = drink
     @count = count
